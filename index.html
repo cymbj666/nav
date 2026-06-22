@@ -16,6 +16,9 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧭</text></svg>">
 </head>
 <body>
+  <!-- 深色模式切换 -->
+  <button class="theme-toggle" id="themeToggle" aria-label="切换深色模式" title="切换深色/亮色模式">🌙</button>
+
   <!-- 顶部区域 -->
   <header class="header">
     <h1 class="title">🧭 我的导航</h1>
@@ -34,7 +37,7 @@
         placeholder="搜索名称、描述或标签…"
         autocomplete="off"
       >
-      <kbd class="search-hint">⌘K</kbd>
+      <kbd class="search-hint" id="searchHint">Ctrl+K</kbd>
     </div>
   </header>
 
@@ -49,6 +52,17 @@
     <p>Made with ❤️ · 数据存于 <code>data/links.json</code></p>
   </footer>
 
+  <!-- 内嵌数据（避免 file:// 下 fetch 跨域限制） -->
+  <script>
+    window.__NAV_LINKS__ = [
+      {"name":"Gamer520","url":"https://www.gamer520.com/","category":"🎮 游戏","description":"免费电脑游戏下载，资源丰富更新快","tags":["游戏","免费","PC","下载"],"icon":""},
+      {"name":"小宝影视","url":"https://www.xiaobaotv.com/","category":"🎬 影视","description":"在线影视剧追剧，资源全更新及时","tags":["影视","追剧","在线","免费"],"icon":""},
+      {"name":"NoVIPNoAd","url":"https://www.novipnoad.net/","category":"🎬 影视","description":"无VIP无广告看影视剧动漫","tags":["影视","动漫","免费","无广告"],"icon":""},
+      {"name":"Libvio","url":"https://www.libvio.pw/","category":"🎬 影视","description":"影视剧动漫在线观看，界面清爽","tags":["影视","动漫","在线","免费"],"icon":""},
+      {"name":"网盘资源导航","url":"https://wangpanziyuan.pages.dev/","category":"🧭 导航","description":"网盘资源聚合导航，找资源入口","tags":["导航","网盘","资源","聚合"],"icon":""},
+      {"name":"Tbox导航","url":"https://www.tboxn.com/","category":"🧭 导航","description":"综合资源导航站，工具网站合集","tags":["导航","工具","资源","合集"],"icon":""}
+    ];
+  </script>
   <script src="js/script.js"></script>
 </body>
 </html>

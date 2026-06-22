@@ -9,6 +9,14 @@
 
   // ========== Data Loading ==========
   async function loadLinks() {
+    // 优先使用内嵌数据（避免 file:// 下 fetch 受限）
+    if (window.__NAV_LINKS__ && window.__NAV_LINKS__.length) {
+      allLinks = window.__NAV_LINKS__;
+      render(allLinks);
+      return;
+    }
+
+    // 线上部署时从 JSON 文件加载
     try {
       const res = await fetch('data/links.json');
       if (!res.ok) throw new Error('HTTP ' + res.status);
@@ -124,8 +132,58 @@
     return div.innerHTML;
   }
 
+  // ========== OS-aware shortcut hint ==========
+  function updateShortcutHint() {
+    const hint = document.getElementById('searchHint');
+    if (!hint) return;
+    const isMac = /Mac|iPhone|iPad|iPod/.test(navigator.platform || navigator.userAgent);
+    hint.textContent = isMac ? '⌘K' : 'Ctrl+K';
+  }
+
+  // ========== Theme Toggle ==========
+  const themeToggle = document.getElementById('themeToggle');
+  const THEME_KEY = 'nav-theme';
+
+  function getSystemTheme() {
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    if (themeToggle) {
+      themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
+      themeToggle.setAttribute('title', theme === 'dark' ? '切换亮色模式' : '切换深色模式');
+    }
+  }
+
+  function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme') || 'light';
+    const next = current === 'dark' ? 'light' : 'dark';
+    applyTheme(next);
+    localStorage.setItem(THEME_KEY, next);
+  }
+
+  function initTheme() {
+    const saved = localStorage.getItem(THEME_KEY);
+    const theme = saved || getSystemTheme();
+    applyTheme(theme);
+
+    // Listen for system theme changes (only when no manual preference saved)
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      if (!localStorage.getItem(THEME_KEY)) {
+        applyTheme(e.matches ? 'dark' : 'light');
+      }
+    });
+  }
+
+  if (themeToggle) {
+    themeToggle.addEventListener('click', toggleTheme);
+  }
+
   // ========== Init ==========
   searchInput.addEventListener('input', debouncedSearch);
   document.addEventListener('keydown', onKeyDown);
+  updateShortcutHint();
+  initTheme();
   loadLinks();
 })();

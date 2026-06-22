@@ -17,6 +17,27 @@
   --radius:        14px;
   --radius-sm:     10px;
   --transition:    0.22s cubic-bezier(0.25, 0.1, 0.25, 1);
+  --kbd-bg:        #f0ede6;
+  --footer-code-bg:#ece9e2;
+  --tag-hover-text:#ffffff;
+}
+
+/* ===== Dark Theme ===== */
+[data-theme="dark"] {
+  --bg:            #1a1a24;
+  --card-bg:       #24242f;
+  --text:          #e2e2e2;
+  --text-secondary:#a0a0a8;
+  --text-muted:    #6b6b70;
+  --accent:        #5ec4b0;
+  --accent-soft:   #1a3a34;
+  --border:        #333340;
+  --shadow-sm:     0 1px 3px rgba(0,0,0,0.25);
+  --shadow-md:     0 4px 16px rgba(0,0,0,0.30);
+  --shadow-lg:     0 12px 36px rgba(0,0,0,0.40);
+  --kbd-bg:        #333340;
+  --footer-code-bg:#333340;
+  --tag-hover-text:#1a1a24;
 }
 
 /* ===== Reset & Base ===== */
@@ -42,6 +63,34 @@ body {
   align-items: center;
   padding: 60px 24px 40px;
   line-height: 1.6;
+  transition: background 0.35s ease, color 0.35s ease;
+}
+
+/* ===== Theme Toggle ===== */
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 24px;
+  width: 42px;
+  height: 42px;
+  border: 1.5px solid var(--border);
+  border-radius: 50%;
+  background: var(--card-bg);
+  font-size: 1.25rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+  z-index: 100;
+  line-height: 1;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.08);
+  box-shadow: var(--shadow-md);
+  border-color: var(--accent);
 }
 
 /* ===== Header ===== */
@@ -115,7 +164,7 @@ body {
   font-family: var(--font-mono);
   font-size: 0.78rem;
   color: var(--text-muted);
-  background: #f0ede6;
+  background: var(--kbd-bg);
   padding: 3px 10px;
   border-radius: 6px;
   pointer-events: none;
@@ -222,7 +271,7 @@ body {
 
 .tag:hover {
   background: var(--accent);
-  color: #fff;
+  color: var(--tag-hover-text);
 }
 
 /* ===== States ===== */
@@ -258,7 +307,7 @@ body {
 
 .footer code {
   font-family: var(--font-mono);
-  background: #ece9e2;
+  background: var(--footer-code-bg);
   padding: 2px 8px;
   border-radius: 4px;
   font-size: 0.82rem;
