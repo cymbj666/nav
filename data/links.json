@@ -1,0 +1,50 @@
+[
+  {
+    "name": "Gamer520",
+    "url": "https://www.gamer520.com/",
+    "category": "🎮 游戏",
+    "description": "免费电脑游戏下载，资源丰富更新快",
+    "tags": ["游戏", "免费", "PC", "下载"],
+    "icon": ""
+  },
+  {
+    "name": "小宝影视",
+    "url": "https://www.xiaobaotv.com/",
+    "category": "🎬 影视",
+    "description": "在线影视剧追剧，资源全更新及时",
+    "tags": ["影视", "追剧", "在线", "免费"],
+    "icon": ""
+  },
+  {
+    "name": "NoVIPNoAd",
+    "url": "https://www.novipnoad.net/",
+    "category": "🎬 影视",
+    "description": "无VIP无广告看影视剧动漫",
+    "tags": ["影视", "动漫", "免费", "无广告"],
+    "icon": ""
+  },
+  {
+    "name": "Libvio",
+    "url": "https://www.libvio.pw/",
+    "category": "🎬 影视",
+    "description": "影视剧动漫在线观看，界面清爽",
+    "tags": ["影视", "动漫", "在线", "免费"],
+    "icon": ""
+  },
+  {
+    "name": "网盘资源导航",
+    "url": "https://wangpanziyuan.pages.dev/",
+    "category": "🧭 导航",
+    "description": "网盘资源聚合导航，找资源入口",
+    "tags": ["导航", "网盘", "资源", "聚合"],
+    "icon": ""
+  },
+  {
+    "name": "Tbox导航",
+    "url": "https://www.tboxn.com/",
+    "category": "🧭 导航",
+    "description": "综合资源导航站，工具网站合集",
+    "tags": ["导航", "工具", "资源", "合集"],
+    "icon": ""
+  }
+]

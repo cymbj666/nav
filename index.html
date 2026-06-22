@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="个人导航页 — 常用网站与工具">
+  <title>我的导航</title>
+
+  <!-- LXGW WenKai 霞鹜文楷 CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css">
+
+  <!-- 主样式 -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Favicon 占位 -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧭</text></svg>">
+</head>
+<body>
+  <!-- 顶部区域 -->
+  <header class="header">
+    <h1 class="title">🧭 我的导航</h1>
+    <p class="subtitle">随手打开，常用工具和收藏都在这里</p>
+
+    <!-- 搜索框 -->
+    <div class="search-wrapper">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/>
+        <path d="m21 21-4.35-4.35"/>
+      </svg>
+      <input
+        type="text"
+        id="searchInput"
+        class="search-input"
+        placeholder="搜索名称、描述或标签…"
+        autocomplete="off"
+      >
+      <kbd class="search-hint">⌘K</kbd>
+    </div>
+  </header>
+
+  <!-- 卡片容器（JS 动态渲染） -->
+  <main id="cardsContainer" class="cards-container">
+    <!-- 加载中占位 -->
+    <div class="loading">加载中…</div>
+  </main>
+
+  <!-- 底部 -->
+  <footer class="footer">
+    <p>Made with ❤️ · 数据存于 <code>data/links.json</code></p>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
