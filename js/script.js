@@ -4,7 +4,13 @@
   const container = document.getElementById('cardsContainer');
   const searchInput = document.getElementById('searchInput');
 
-  /** @type {Array<{name:string, url:string, category:string, description:string, tags:string[], icon:string}>} */
+  // Modal elements
+  const modalOverlay = document.getElementById('modalOverlay');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalBody = document.getElementById('modalBody');
+  const modalClose = document.getElementById('modalClose');
+
+  /** @type {Array<{name:string, url:string, category:string, description:string, tags:string[], icon:string, extraButton?:{label:string,url?:string,content?:string}}>} */
   let allLinks = [];
 
   // ========== Data Loading ==========
@@ -59,6 +65,7 @@
       html += '<div class="card-grid">';
 
       for (const link of groupLinks) {
+        const idx = allLinks.indexOf(link);
         const icon = link.icon
           ? `<img class="card-icon-img" src="${escapeHtml(link.icon)}" alt="" width="24" height="24">`
           : '<span class="card-icon">🔗</span>';
@@ -70,11 +77,11 @@
           : '';
 
         const extraBtnHtml = link.extraButton
-          ? `<span class="card-extra-btn" data-url="${escapeHtml(link.extraButton.url)}">${escapeHtml(link.extraButton.label)}</span>`
+          ? `<span class="card-extra-btn" data-link-index="${idx}">${escapeHtml(link.extraButton.label)}</span>`
           : '';
 
         html += `
-          <a href="${escapeHtml(link.url)}" class="card" target="_blank" rel="noopener noreferrer" title="${escapeHtml(link.name)}">
+          <a href="${escapeHtml(link.url)}" class="card" target="_blank" rel="noopener noreferrer" title="${escapeHtml(link.name)}" data-link-index="${idx}">
             <span class="card-name">${icon} ${escapeHtml(link.name)}</span>
             <span class="card-desc">${escapeHtml(link.description)}</span>
             ${tagsHtml}
@@ -116,17 +123,24 @@
 
   // ========== Keyboard Shortcuts ==========
   function onKeyDown(e) {
+    // Escape: close modal first, then clear search
+    if (e.key === 'Escape') {
+      if (modalOverlay && modalOverlay.classList.contains('active')) {
+        closeModal();
+        return;
+      }
+      if (document.activeElement === searchInput) {
+        searchInput.blur();
+        searchInput.value = '';
+        render(allLinks);
+      }
+      return;
+    }
     // ⌘K / Ctrl+K → focus search
     if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
       e.preventDefault();
       searchInput.focus();
       searchInput.select();
-    }
-    // Escape → blur search and clear
-    if (e.key === 'Escape' && document.activeElement === searchInput) {
-      searchInput.blur();
-      searchInput.value = '';
-      render(allLinks);
     }
   }
 
@@ -189,13 +203,55 @@
   searchInput.addEventListener('input', debouncedSearch);
   document.addEventListener('keydown', onKeyDown);
 
-  // Event delegation: extra button clicks inside cards
+  // ========== Modal ==========
+  function openModal(title, markdown) {
+    if (!modalOverlay || !modalBody || !modalTitle) return;
+    modalTitle.textContent = title;
+    // Use marked.js to render markdown; fallback to plain text if not loaded
+    if (typeof marked !== 'undefined' && marked.parse) {
+      modalBody.innerHTML = marked.parse(markdown);
+    } else {
+      modalBody.textContent = markdown;
+    }
+    modalOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    if (!modalOverlay) return;
+    modalOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  // Modal close: button, backdrop click, Escape
+  if (modalClose) {
+    modalClose.addEventListener('click', closeModal);
+  }
+  if (modalOverlay) {
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) closeModal();
+    });
+  }
+
+  // ========== Event delegation: extra button clicks ==========
   container.addEventListener('click', (e) => {
     const btn = e.target.closest('.card-extra-btn');
     if (!btn) return;
     e.preventDefault();
     e.stopPropagation();
-    const url = btn.getAttribute('data-url');
+
+    const idx = parseInt(btn.getAttribute('data-link-index'), 10);
+    const link = allLinks[idx];
+    if (!link || !link.extraButton) return;
+
+    // If the button has markdown content, open modal
+    if (link.extraButton.content) {
+      openModal(link.extraButton.label, link.extraButton.content);
+      return;
+    }
+
+    // Otherwise navigate to URL
+    const url = link.extraButton.url;
     if (url && url !== '#') {
       window.open(url, '_blank', 'noopener,noreferrer');
     }

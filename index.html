@@ -52,6 +52,17 @@
     <p>Made with ❤️ · 数据存于 <code>data/links.json</code></p>
   </footer>
 
+  <!-- Markdown 弹窗 -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-box">
+      <div class="modal-header">
+        <span class="modal-title" id="modalTitle">教程</span>
+        <button class="modal-close" id="modalClose" aria-label="关闭">✕</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
   <!-- 内嵌数据（避免 file:// 下 fetch 跨域限制） -->
   <script>
     window.__NAV_LINKS__ = [
@@ -61,9 +72,10 @@
       {"name":"Libvio","url":"https://www.libvio.pw/","category":"🎬 影视","description":"影视剧动漫在线观看，界面清爽","tags":["影视","动漫","在线","免费"],"icon":""},
       {"name":"网盘资源导航","url":"https://wangpanziyuan.pages.dev/","category":"🧭 导航","description":"网盘资源聚合导航，找资源入口","tags":["导航","网盘","资源","聚合"],"icon":""},
       {"name":"Tbox导航","url":"https://www.tboxn.com/","category":"🧭 导航","description":"综合资源导航站，工具网站合集","tags":["导航","工具","资源","合集"],"icon":""},
-      {"name":"Mihon","url":"https://github.com/mihonapp/mihon","category":"📖 阅读","description":"开源漫画阅读器，支持自定义漫画源，资源丰富","tags":["漫画","开源","阅读器","Android"],"icon":"","extraButton":{"label":"📖 配置教程","url":"#"}}
+      {"name":"Mihon","url":"https://github.com/mihonapp/mihon","category":"📖 阅读","description":"开源漫画阅读器，支持自定义漫画源，资源丰富","tags":["漫画","开源","阅读器","Android"],"icon":"","extraButton":{"label":"📖 配置教程","content":"# Mihon 配置教程\n\n> 这里放你的教程内容，支持 **Markdown** 格式。\n\n## 第一步\n\n1. 下载并安装 Mihon\n2. 打开应用\n\n## 第二步\n\n添加漫画源…\n\n```\n示例代码块\n```\n\n> 💡 提示：你随时可以编辑这段内容，推送后自动更新。"}}"
     ];
   </script>
   <script src="js/script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </body>
 </html>
