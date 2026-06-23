@@ -69,11 +69,16 @@
             '</div>'
           : '';
 
+        const extraBtnHtml = link.extraButton
+          ? `<span class="card-extra-btn" data-url="${escapeHtml(link.extraButton.url)}">${escapeHtml(link.extraButton.label)}</span>`
+          : '';
+
         html += `
           <a href="${escapeHtml(link.url)}" class="card" target="_blank" rel="noopener noreferrer" title="${escapeHtml(link.name)}">
             <span class="card-name">${icon} ${escapeHtml(link.name)}</span>
             <span class="card-desc">${escapeHtml(link.description)}</span>
             ${tagsHtml}
+            ${extraBtnHtml}
           </a>`;
       }
 
@@ -183,6 +188,19 @@
   // ========== Init ==========
   searchInput.addEventListener('input', debouncedSearch);
   document.addEventListener('keydown', onKeyDown);
+
+  // Event delegation: extra button clicks inside cards
+  container.addEventListener('click', (e) => {
+    const btn = e.target.closest('.card-extra-btn');
+    if (!btn) return;
+    e.preventDefault();
+    e.stopPropagation();
+    const url = btn.getAttribute('data-url');
+    if (url && url !== '#') {
+      window.open(url, '_blank', 'noopener,noreferrer');
+    }
+  });
+
   updateShortcutHint();
   initTheme();
   loadLinks();
